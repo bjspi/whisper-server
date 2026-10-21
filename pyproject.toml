@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whisperserver"
+dynamic = ["version"]
+description = "Local, private speech-to-text for Windows: Whisper large-v3-turbo on OpenVINO (Intel GPU/NPU/CPU) behind an OpenAI-compatible API, with tray icon and watchdog."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "bjspi" }]
+keywords = ["whisper", "openvino", "speech-to-text", "transcription", "openai", "intel-arc", "tray"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: Microsoft :: Windows",
+    "Environment :: Win32 (MS Windows)",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "openvino-genai>=2025.3",
+    "faster-whisper>=1.1",   # audio decoding (PyAV) and Silero VAD only, no CTranslate2 inference
+    "av>=12,<16",            # faster-whisper 1.2 passes metadata_errors, removed in PyAV 16
+    "numpy",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "python-multipart>=0.0.9",
+    "huggingface_hub>=0.23",
+    "truststore>=0.9",
+    "PyQt6>=6.9",
+    "psutil>=5.9",
+    "sounddevice>=0.4",    # microphone recording for the benchmark
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/bjspi/whisper-server"
+Issues = "https://github.com/bjspi/whisper-server/issues"
+
+[project.scripts]
+whisperserver = "whisperserver.app:main"
+
+[project.gui-scripts]
+whisperserver-gui = "whisperserver.app:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "whisperserver.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

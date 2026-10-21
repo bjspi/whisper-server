@@ -1,0 +1,8 @@
+.venv/
+models/
+__pycache__/
+*.egg-info/
+build/
+.pytest_cache/
+# personal voice recording used as the default benchmark audio
+assets/reference_de.wav
